@@ -20,6 +20,7 @@ endfunction
 Function void build_phase(uvm_phase phase);
 	//build other components //build env class
 	env = our_env::type_id::create(“env”,, this); // create is a factory method – static method to create object
+        seq = our_sequence::type_id::create("seq");
 Endfunction
 
 //connect phase
@@ -30,6 +31,9 @@ Endfunction
 //run phase – it contain time consuming statement
 Task run_phase(uvm_phase phase)
 	//run test- uvm_top.run_test();
+	phase.raise_objection(this);
+	   seq.start(env.our_agnt.our_sequencer);
+	phase.drop_objection(this);
 endtask
 Endclass
 
